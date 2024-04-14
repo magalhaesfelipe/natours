@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
     .status(300)
     .json({
       message:
-        'This server is running in Ponta Porã, better known as end of the world ',
+        'This server is actually my personal notebook and is running in Ponta Porã, better known as end of the world ',
       app: 'Natours V1'
       });
 });
