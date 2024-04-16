@@ -146,5 +146,7 @@
     "name": "Germani Tour",
     "duration": 100,
     "difficulty": "hard level"
-  }
+  },
+  { "id": 12, "duration": 150 },
+  { "id": 13, "name": "Test Tour", "duration": 100, "difficulty": "hard level" }
 ]
