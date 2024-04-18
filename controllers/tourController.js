@@ -27,7 +27,6 @@ exports.getTour = (req, res) => {
       message: 'invalid ID',
     });
   }
-
   res.status(200).json({
     status: 'success',
     data: {
@@ -63,7 +62,6 @@ exports.updateTour = (req, res) => {
       message: 'Invalid ID',
     });
   }
-
   res.status(200).json({
     status: 'success',
     data: {
@@ -79,7 +77,6 @@ exports.deleteTour = (req, res) => {
       message: 'Invalid ID',
     });
   }
-
   res.status(204).json({
     status: 'success',
     data: null,
