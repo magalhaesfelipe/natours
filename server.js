@@ -18,7 +18,13 @@ mongoose
   })
   .then(() => console.log('DB CONNECTION SUCCESSFUL'));
 
+const tourSchema = new mongoose.Schema({
+  
+})
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`App running on PORT ${PORT}!`);
 });
+
+
