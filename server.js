@@ -33,8 +33,21 @@ const tourSchema = new mongoose.Schema({
     default: 4.5,
   },
 });
-
+ 
 const Tour = mongoose.model('Tour', tourSchema);
+
+const testTour = new Tour({
+  name: 'Japan',
+  price: 300
+})
+
+testTour.save().then(doc => {
+  console.log(doc)
+}).catch(err => {
+  console.log('ERROR 💥:', err)
+})
+
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
