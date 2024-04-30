@@ -17,4 +17,6 @@ router
   .patch(tourController.updateTour)
   .delete(tourController.deleteTour);
 
+router.route('/search/:name').get(tourController.getTourByName);
+
 module.exports = router;
