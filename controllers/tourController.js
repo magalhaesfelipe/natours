@@ -2,6 +2,7 @@ const Tour = require('../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
+    // BUILD THE QUERY
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
@@ -12,23 +13,35 @@ exports.getAllTours = async (req, res) => {
       'AND THIS IS THE REQUEST QUERY WITH FIELDS EXCLUDED: ',
       queryObj,
     );
-    const tours = await Tour.find(queryObj);
+
+    const test = Tour.find(queryObj).where('duration').equals(3);
+    console.log(
+      '********************THIS IS THE TEST QUERY********************** ',
+      test,
+    );
+
+    const query = Tour.find(queryObj);
+
+    // EXECUTE THE QUERY
+    const tours = await query;
 
     // filtering
-    /* const tours = await Tour.find({
+    /* const query = Tour.find({
       difficulty: queryObj.difficulty,
       price: queryObj.price,
     });
  */
-    //const tours = await Tour.find(req.query);
+    // const tours = await Tour.find(req.query);
 
-    //filtering using mongoose methods
-    /* const tours = await Tour.find()
+    // Query filtering using mongoose methods
+    /* const query = Tour.find()
       .where('duration')
       .equals(7)
       .where('price')
       .equals(497);
  */
+
+    // SEND RESPONSE
     res.status(200).json({
       status: 'success',
       results: tours.length,
