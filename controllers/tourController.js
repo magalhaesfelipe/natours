@@ -2,8 +2,33 @@ const Tour = require('../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
 
+    console.log(
+      'THIS IS THE REQUEST QUERY: ',
+      req.query,
+      'AND THIS IS THE REQUEST QUERY WITH FIELDS EXCLUDED: ',
+      queryObj,
+    );
+    const tours = await Tour.find(queryObj);
+
+    // filtering
+    /* const tours = await Tour.find({
+      difficulty: queryObj.difficulty,
+      price: queryObj.price,
+    });
+ */
+    //const tours = await Tour.find(req.query);
+
+    //filtering using mongoose methods
+    /* const tours = await Tour.find()
+      .where('duration')
+      .equals(7)
+      .where('price')
+      .equals(497);
+ */
     res.status(200).json({
       status: 'success',
       results: tours.length,
@@ -120,7 +145,7 @@ exports.updateTour = async (req, res) => {
 
 exports.deleteTour = async (req, res) => {
   try {
-        const tour = await Tour.findByIdAndDelete(req.params.id);
+    const tour = await Tour.findByIdAndDelete(req.params.id);
 
     if (!tour) {
       return res.status(404).json({
