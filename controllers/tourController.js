@@ -2,44 +2,22 @@ const Tour = require('../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
+    console.log(req.query);
     // BUILD THE QUERY
+    // 1) Filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    console.log(
-      'THIS IS THE REQUEST QUERY: ',
-      req.query,
-      'AND THIS IS THE REQUEST QUERY WITH FIELDS EXCLUDED: ',
-      queryObj,
-    );
+    // 2) Advanced filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    console.log(JSON.parse(queryStr));
 
-    const test = Tour.find(queryObj).where('duration').equals(3);
-    console.log(
-      '********************THIS IS THE TEST QUERY********************** ',
-      test,
-    );
-
-    const query = Tour.find(queryObj);
+    const query = Tour.find(JSON.parse(queryStr));
 
     // EXECUTE THE QUERY
     const tours = await query;
-
-    // filtering
-    /* const query = Tour.find({
-      difficulty: queryObj.difficulty,
-      price: queryObj.price,
-    });
- */
-    // const tours = await Tour.find(req.query);
-
-    // Query filtering using mongoose methods
-    /* const query = Tour.find()
-      .where('duration')
-      .equals(7)
-      .where('price')
-      .equals(497);
- */
 
     // SEND RESPONSE
     res.status(200).json({
