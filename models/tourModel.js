@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { default: slugify } = require('slugify');
 const slugigy = require('slugify');
+const validator = require('validator');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -9,6 +10,7 @@ const tourSchema = new mongoose.Schema(
       required: [true, 'A tour must have a name'],
       unique: true,
       trim: true,
+      
     },
     slug: String,
     duration: {
@@ -35,7 +37,16 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    priceDiscount: Number,
+    priceDiscount: {
+      type: Number,
+      validate: {
+        validator: function (val) {
+          // this only points to current doc on NEW document creation
+          return val < this.price; 
+        },
+        message: 'Discount price ({VALUE}) should be below regular price',
+      },
+    },
     summary: {
       type: String,
       trim: true,
@@ -78,10 +89,10 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
-tourSchema.post('save', function(doc, next) {
+tourSchema.post('save', function (doc, next) {
   console.log(doc);
   next();
-})
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
