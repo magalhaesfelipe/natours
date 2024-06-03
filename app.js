@@ -9,9 +9,11 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 // MIDDLEWARES
-if (process.env.NODE_ENV === 'development') {
+/* if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
-}
+} */
+
+app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
